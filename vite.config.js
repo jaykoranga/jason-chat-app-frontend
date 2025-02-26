@@ -11,4 +11,7 @@ export default defineConfig({
       "framer-motion",
     ],
   },
+  build:{
+    outDir:"dist",
+  }
 });
