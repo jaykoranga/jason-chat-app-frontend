@@ -1,0 +1,300 @@
+.chat-header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-header-buttons button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-header-buttons button:hover {
+    background-color: #66bb6a;
+}
+
+/* When sidebar is hidden, chat window becomes full-width */
+.chat-window.full-width {
+    width: 100%;
+}
+
+/* Transition for smoother toggling */
+.chat-sidebar {
+    transition: width 0.3s ease-in-out;
+}
+
+.chat-window {
+    transition: width 0.3s ease-in-out;
+}
+
+/* Overall container styling */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    color: white;
+}
+
+/* Header styling */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    border-bottom: 2px solid #444;
+}
+
+.chat-header h1 {
+    font-size: 1.5rem;
+}
+
+.chat-header button {
+    background-color: #202452;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-header button:hover {
+    background-color: #28316e;
+}
+
+/* Main content area */
+.chat-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar styling */
+.chat-sidebar {
+    width: 25%;
+        /* Adjust as needed */
+        height: 100%;
+        overflow-y: auto;
+        /* Enables independent scrolling */
+        border-right: 1px solid #ddd;
+        position: relative;
+        padding: 1rem;
+}
+
+.chat-search-bar {
+    padding: 0.5rem;
+    color: rgb(11, 11, 11);
+    position: sticky;
+    z-index: 10;
+    border-radius: 10%;
+    
+}
+
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-item {
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background-color: #444;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-item:hover {
+    background-color: #555;
+}
+
+/* Chat window styling */
+.chat-window {
+    flex: 1;
+    padding: 1rem;
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-window h2 {
+    margin-bottom: 1rem;
+}
+
+.chat-window p {
+    color: #aaa;
+}
+
+/* Search container and close button styling */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #2b2b3b;
+    padding: 0.5rem;
+    
+    margin-bottom: 1rem;
+}
+
+.search-container input.chat-search-bar {
+    flex: 1;
+}
+
+.go-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.go-button:hover {
+    background-color: #66bb6a;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    color: #ff4d4f;
+    font-size: 1.5rem;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover {
+    color: #ff7777;
+}
+.input-container{
+    display: flex;
+    padding: 0.5rem;
+    flex-direction: row;
+    
+   
+}
+.input-container input{
+    flex: 9;
+    background: #b2bbcf;
+    color: black;
+    padding: 0.5rem;
+}
+.input-container button{
+    flex:1;
+    border: #de6464;
+    background-color: #241b4f;
+    cursor: pointer;
+}
+.input-container button:hover{
+    background: #354380;
+}
+.message-container{
+        flex: 1;
+        /* Takes up remaining space */
+        overflow-y: auto;
+        /* Allows scrolling when messages overflow */
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+}
+.message-sent{
+    display: flex;
+    align-items:flex-end;
+    justify-content: right;
+    margin: 0.5rem;
+}
+.message-recieve{
+   display:flex;
+   align-items: flex-start;
+   justify-content: left;
+}
+.main-chat-window{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: 100vh;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Responsive Styling for Mobile Devices */
+@media screen and (max-width: 768px) {
+
+    /* Make the sidebar smaller */
+    .chat-sidebar {
+        width: 100%;
+        /* Take full width */
+        height: 50vh;
+        /* Half screen height */
+        overflow-y: auto;
+        /* Enable scrolling */
+        border-right: none;
+        /* Remove border for clean UI */
+        padding: 0.5rem;
+        /* Reduce padding */
+    }
+
+    /* Make search bar take full width */
+    .chat-search-bar {
+        width: 100%;
+        font-size: 1rem;
+        /* Larger text for better readability */
+        padding: 0.6rem;
+    }
+
+    /* Adjust buttons for better mobile experience */
+    .chat-header-buttons {
+        flex-wrap: wrap;
+        /* Allow buttons to wrap in small screens */
+        gap: 5px;
+        /* Reduce spacing */
+    }
+
+    .chat-header-buttons button {
+        width: 100%;
+        /* Full width buttons */
+        padding: 0.7rem;
+    }
+
+    /* Search results dropdown should be properly positioned */
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: white;
+        z-index: 10;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Chat window should take full width */
+    .chat-window {
+        width: 100%;
+        flex: 1;
+        padding: 0.8rem;
+    }
+
+    /* Adjust chat list for better readability */
+    .chat-list {
+        font-size: 0.9rem;
+    }
+
+    /* Improve chat item spacing */
+    .chat-item {
+        padding: 0.6rem;
+        font-size: 1rem;
+    }
+}
