@@ -1,5 +1,5 @@
 import { Button, HStack, VStack } from "@chakra-ui/react";
-import expressAsyncHandler from "express-async-handler";
+
 import React, { useState } from "react";
 import { chatState } from "../contexts/chatContext";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
