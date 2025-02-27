@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { chatState } from '../contexts/chatContext';
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
-import expressAsyncHandler from 'express-async-handler';
+
 import { useToast } from "@chakra-ui/react";
 import io from "socket.io-client";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
