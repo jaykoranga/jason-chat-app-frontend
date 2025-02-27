@@ -23,7 +23,7 @@ const ChatSidebar = ({ chats, setchats,user,selectedChat,setSelectedChat }) => {
     }
   };
     
-  const handleGoClick=expressAsyncHandler(async()=>{
+  const handleGoClick=(async()=>{
     if(!searchInput.trim()) return;
     try {
       const response=await fetch(`${API_URL}/api/users/getAllUsers?name=${searchInput}`,{
@@ -44,7 +44,7 @@ const ChatSidebar = ({ chats, setchats,user,selectedChat,setSelectedChat }) => {
   })
 
   // selecting a chat 
-  const accessChat=expressAsyncHandler(async (userId)=>{
+  const accessChat=(async (userId)=>{
         try {
           const response = await fetch(`${API_URL}/api/chats`, {
             method: "POST",
