@@ -5,7 +5,7 @@ import {createContext} from "react"
 const chatContext=createContext();
 
 const ChatProvider=({children})=>{ 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [logout, setLogout] = useState(false);
   const [selectedChat,setSelectedChat]=useState(null);
   const [chats,setChats]=useState([]);
@@ -15,7 +15,7 @@ const ChatProvider=({children})=>{
      useEffect(()=>{
        const userInfo=JSON.parse(localStorage.getItem("userInfo"))
        if(userInfo) setUser(userInfo);
-     },[logout]);
+     },[]);
 
      return (
        <chatContext.Provider

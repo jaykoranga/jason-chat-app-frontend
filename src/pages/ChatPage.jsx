@@ -6,7 +6,6 @@ import ChatSidebar from "../miscelleneous/ChatSidebar";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 import { Avatar } from "@chakra-ui/react";
 import ChatWindow from "../miscelleneous/ChatWindow";
-// importing socket.io-client here for the socket connection
 import io from "socket.io-client";
 
 const ChatPage = () => {
@@ -20,53 +19,79 @@ const ChatPage = () => {
     selectedChat,
     setSelectedChat,
   } = chatState();
+  
   const navigate = useNavigate();
   const [isOpenProfile, setIsOpenProfile] = useState(false);
+  const [loading,setLoading]=useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
+  useEffect(() => {
+    const storedUser = localStorage.getItem("userInfo");
+    if (storedUser) {
+      console.log("User found in localStorage:", storedUser);
+      setUser(JSON.parse(storedUser));
+    } else {
+      console.log("User not found, redirecting to login...");
+      navigate("/");
+    }
+  }, []);
 
   const handleLogout = () => {
+    
     setUser(null);
     setLogout(true);
     localStorage.removeItem("userInfo");
     navigate("/", { replace: true });
+  
   };
+  
+   const fetchChats = async () => {
+     if (!user || !user.jwt || logout === true) {
+       return;
+     }
+     console.log(user);
+
+     try {
+       const response = await fetch(`${API_URL}/api/chats`, {
+         method: "GET",
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${user.jwt}`,
+         },
+       });
+
+       if (!response.ok) {
+         throw new Error(`HTTP error! status: ${response.status}`);
+       }
+
+       const data = await response.json();
+       setChats(data);
+       setLoading(false);
+     } catch (error) {
+       console.error("Error fetching chats:", error.message);
+     }
+   };
 
   useEffect(() => {
-    const fetchChats = async () => {
-      if (!user || !user.jwt || logout === true) {
-        return;
-      }
-      console.log(user);
+    
+    console.log(`user in usestate ${user}`)
+    if(user){
+      
+      fetchChats();
+      
+    }
+  },[user]);
+  
+    if (!user) {
+      return <div>Loading user...</div>;
+    }
 
-      try {
-        const response = await fetch(`${API_URL}/api/chats`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.jwt}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setChats(data);
-      } catch (error) {
-        console.error("Error fetching chats:", error.message);
-      }
-    };
-
-    fetchChats();
-  }, [user, selectedChat]);
-
-  if (!user || !localStorage.getItem("userInfo")) {
+  if (loading) {
     return <div>Loading chat data...</div>;
   }
   const openProfile = () => {
     setIsOpenProfile(true);
   };
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   return (
     <div className="chat-container">
       <header className="chat-header">
