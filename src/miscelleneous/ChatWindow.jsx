@@ -14,38 +14,48 @@ const ChatWindow = () => {
   const [socketConnection, setSocketConnection] = useState(false);
   const toast = useToast();
 
-   const [socket,setSocket]=useState(null)
+   const socketRef = useRef(null);
     const ENDPOINT = `${API_URL}`;
     var  selectedChatCompare;
     useEffect(() => {
-      
-      setSocket(io(ENDPOINT))
+      if(!socketRef.current) socketRef.current=io(ENDPOINT);
       if(user){
-        if(socket){
-            socket.emit("setup", user);
-            socket.on("connected", () => setSocketConnection(true));
-  
-        }
-       
+        socketRef.current.emit("setup", user);
+        socketRef.current.on("connected", () => setSocketConnection(true));
       }
-      
+
+       return () => {
+         if (socketRef.current) {
+           socketRef.current.disconnect(); // Clean up socket connection on unmount
+           socketRef.current = null;
+         }
+       };
+
     }, [user]);
     
     useEffect(()=>{
-      if(socket){
-        socket.on("message recieved", (newMessage) => {
-          if (
-            !selectedChatCompare ||
-            selectedChatCompare._id !== newMessage.chat._id
-          ) {
-            //do nothing
-          } else {
-            setAllMessages(()=>[...allMessages, newMessage]);
-          }
-        });
-      }
+     
+      if(!socketRef.current) return;
+
+       const handleMessageReceived = (newMessage) => {
+         if (
+           !selectedChatCompare ||
+           selectedChatCompare._id !== newMessage.chat._id
+         ) {
+           // Ignore messages from other chats
+         } else {
+           setAllMessages((prev) => [...prev, newMessage]);
+         }
+       };
+
+       socketRef.current.on("message recieved",handleMessageReceived);
+       return ()=>{
+        socketRef.current.off('message recieved',handleMessageReceived)
+       }
       
-    })
+    },[selectedChat]
+  
+  )
 
   //handling input from the bottom of the chat window
   const handleInput = (e) => {
@@ -75,7 +85,7 @@ const ChatWindow = () => {
           }),
         });
         const data = await response.json();
-         socket.emit("new message", data);
+         socketRef.current.emit("new message", data);
         
         setAllMessages((prev) => [...prev, data]);
 
@@ -111,8 +121,9 @@ const ChatWindow = () => {
         const data = await response.json();
 
         setAllMessages([])
+        console.log("messages are cleared after selecting a chat ")
         setAllMessages(data);
-         if (selectedChat) socket.emit("join-room", selectedChat._id);
+         if (selectedChat) socketRef.current.emit("join-room", selectedChat._id);
         // console.log(`the first message of messages is : ${allMessages[0].content}`);
       } catch (error) {
         toast({
